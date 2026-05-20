@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #1a1612;
+      --paper:    #f5f0e8;
+      --cream:    #ede7d9;
+      --accent:   #c0392b;
+      --muted:    #8a7f72;
+      --border:   #cfc5b4;
+      --shadow:   rgba(26,22,18,.12);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* Subtle texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(192,57,43,.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(192,57,43,.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 4px var(--shadow), 0 12px 40px var(--shadow);
+      padding: 3rem 3rem 2.5rem;
+      position: relative;
+      animation: rise .6s cubic-bezier(.22,.61,.36,1) both;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header { margin-bottom: 2.25rem; }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .5rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .subtitle {
+      margin-top: .6rem;
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .divider {
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+      margin: 1.5rem 0;
+    }
+
+    /* Form fields */
+    .field { margin-bottom: 1.4rem; }
+
+    label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .45rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--border);
+      padding: .75rem 1rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--ink);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(26,22,18,.06);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    /* Name row */
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Submit button */
+    button[type="submit"] {
+      width: 100%;
+      margin-top: .6rem;
+      padding: .9rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background .2s, color .2s, transform .15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button[type="submit"]::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s cubic-bezier(.22,.61,.36,1);
+      z-index: 0;
+    }
+
+    button[type="submit"]:hover::after { transform: scaleX(1); }
+    button[type="submit"] span { position: relative; z-index: 1; }
+    button[type="submit"]:active { transform: scale(.98); }
+
+    /* Success state */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 2rem 0 1rem;
+    }
+
+    .success-icon {
+      width: 52px; height: 52px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--accent);
+      font-size: 1.4rem;
+    }
+
+    .success-state h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: .5rem;
+    }
+
+    .success-state p {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Error message */
+    .form-error {
+      display: none;
+      font-size: .82rem;
+      color: var(--accent);
+      margin-top: .35rem;
+    }
+
+    .footer-note {
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--cream);
+      font-size: .76rem;
+      color: var(--border);
+      text-align: center;
+      letter-spacing: .03em;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.5rem; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Default form state -->
+  <div id="form-wrapper">
+    <div class="header">
+      <p class="eyebrow">Get in touch</p>
+      <h1>Let's <em>talk.</em></h1>
+      <p class="subtitle">Fill out the form and I'll get back to you as soon as possible.</p>
+      <div class="divider"></div>
+    </div>
+
+    <form
+      id="contact-form"
+      action="https://formspree.io/f/mgoqayae"
+      method="POST"
+    >
+      <div class="row">
+        <div class="field">
+          <label for="first-name">First name</label>
+          <input type="text" id="first-name" name="first_name" placeholder="Jane" required />
+        </div>
+        <div class="field">
+          <label for="last-name">Last name</label>
+          <input type="text" id="last-name" name="last_name" placeholder="Smith" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+        <p class="form-error" id="email-error">Please enter a valid email address.</p>
+      </div>
+
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="What's this about?" />
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Your message…" required></textarea>
+        <p class="form-error" id="message-error">Please write a message.</p>
+      </div>
+
+      <button type="submit" id="submit-btn">
+        <span id="btn-label">Send message</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Success state (shown after submission) -->
+  <div class="success-state" id="success-state">
+    <div class="success-icon">✓</div>
+    <h2>Message sent.</h2>
+    <p>Thank you for reaching out — I'll be in touch shortly.</p>
+  </div>
+
+  <p class="footer-note">Your information is never shared with third parties.</p>
+</div>
+
+<script>
+  const form    = document.getElementById('contact-form');
+  const btn     = document.getElementById('submit-btn');
+  const btnLabel = document.getElementById('btn-label');
+  const wrapper = document.getElementById('form-wrapper');
+  const success = document.getElementById('success-state');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    btn.disabled = true;
+    btnLabel.textContent = 'Sending…';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('https://formspree.io/f/mgoqayae', {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' }
+      });
+
+      if (res.ok) {
+        wrapper.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        const json = await res.json();
+        const msg = json?.errors?.map(e => e.message).join(', ') || 'Something went wrong. Please try again.';
+        alert(msg);
+        btn.disabled = false;
+        btnLabel.textContent = 'Send message';
+      }
+    } catch {
+      alert('Network error — please check your connection and try again.');
+      btn.disabled = false;
+      btnLabel.textContent = 'Send message';
+    }
+  });
+</script>
+
+</body>
+</html>
